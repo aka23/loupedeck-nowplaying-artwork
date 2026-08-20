@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>Loupedeck.SpotifyArtworkPlugin</RootNamespace>
+
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+
+    <BaseOutputPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\bin\'))</BaseOutputPath>
+    <OutputPath>$(BaseOutputPath)$(Configuration)\bin\</OutputPath>
+  </PropertyGroup>
+
+  <!--
+    Location of PluginApi.dll. Set the PluginApiDir property (for example,
+    `dotnet build -p:PluginApiDir=/some/path/`) to override the discovery below.
+  -->
+  <PropertyGroup Condition="'$(PluginApiDir)' == '' and $(OS) == 'Windows_NT'">
+    <PluginApiDir>C:\Program Files\Logi\LogiPluginService\</PluginApiDir>
+  </PropertyGroup>
+
+  <!--
+    On macOS the API ships with the `logiplugintool` dotnet tool, whose store path embeds the
+    tool version twice. Discover the newest installed version instead of hard-coding it.
+  -->
+  <PropertyGroup Condition="'$(PluginApiDir)' == '' and $(OS) != 'Windows_NT'">
+    <LogiPluginToolStore Condition="'$(LogiPluginToolStore)' == ''">$(HOME)/.dotnet/tools/.store/logiplugintool/</LogiPluginToolStore>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(PluginApiDir)' == '' and $(OS) != 'Windows_NT' and Exists('$(LogiPluginToolStore)')">
+    <_LogiPluginToolVersionDirs>$([System.IO.Directory]::GetDirectories('$(LogiPluginToolStore)'))</_LogiPluginToolVersionDirs>
+    <_LogiPluginToolLatestDir>$([System.Text.RegularExpressions.Regex]::Match($(_LogiPluginToolVersionDirs), '[^;]+$'))</_LogiPluginToolLatestDir>
+    <_LogiPluginToolVersion>$([System.IO.Path]::GetFileName('$(_LogiPluginToolLatestDir)'))</_LogiPluginToolVersion>
+    <PluginApiDir>$(_LogiPluginToolLatestDir)/logiplugintool/$(_LogiPluginToolVersion)/tools/net8.0/any/</PluginApiDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="PluginApi">
+      <HintPath>$(PluginApiDir)PluginApi.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CheckPluginApi" BeforeTargets="ResolveAssemblyReferences">
+    <Error
+      Condition="!Exists('$(PluginApiDir)PluginApi.dll')"
+      Text="PluginApi.dll was not found at '$(PluginApiDir)'. Install the Logi Plugin Service (Windows) or the `logiplugintool` dotnet tool (macOS), or build with -p:PluginApiDir=&lt;path ending in a separator&gt;." />
+  </Target>
+
+  <Target Name="CopyPackage" AfterTargets="PostBuildEvent">
+    <Message Text="📦 Copying package files..." Importance="High" />
+    <ItemGroup>
+      <PackageFiles Include="package\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PackageFiles)" DestinationFolder="$(OutputPath)..\%(RecursiveDir)" />
+    <Message Text="✅ Package files copied to $(OutputPath)..\" Importance="High" />
+  </Target>
+
+</Project>

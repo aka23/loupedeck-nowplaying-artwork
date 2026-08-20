@@ -1,4 +1,4 @@
-namespace Loupedeck.SpotifyArtworkPlugin
+namespace Loupedeck.NowPlayingArtworkPlugin
 {
     using System;
 
@@ -6,9 +6,9 @@ namespace Loupedeck.SpotifyArtworkPlugin
     // subclass, even when the plugin is universal (`HasNoApplication`). This is that placeholder:
     // it names no process or bundle, so it never claims to be running.
 
-    public class SpotifyArtworkApplication : ClientApplication
+    public class NowPlayingArtworkApplication : ClientApplication
     {
-        public SpotifyArtworkApplication()
+        public NowPlayingArtworkApplication()
         {
         }
 

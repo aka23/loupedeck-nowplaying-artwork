@@ -1,4 +1,4 @@
-namespace Loupedeck.SpotifyArtworkPlugin
+namespace Loupedeck.NowPlayingArtworkPlugin
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@ namespace Loupedeck.SpotifyArtworkPlugin
     using System.Threading;
     using System.Threading.Tasks;
 
-    public sealed class SpotifyArtworkCommand : PluginDynamicCommand
+    public sealed class NowPlayingArtworkCommand : PluginDynamicCommand
     {
         private const Int32 MaxCachedTracks = 20;
         private const Int32 MaxArtworkBytes = 10 * 1024 * 1024;
@@ -64,11 +64,11 @@ namespace Loupedeck.SpotifyArtworkPlugin
         // stops the artwork from updating. An empty display name leaves the app nothing to draw, so
         // the key keeps the default (live) rendering and shows the artwork alone. The action id the
         // profile stores is built from the type name, so this does not disturb existing keys.
-        public SpotifyArtworkCommand()
+        public NowPlayingArtworkCommand()
             : base(
                 displayName: String.Empty,
-                description: "Shows the current Spotify album artwork and toggles Play/Pause",
-                groupName: "Spotify Artwork")
+                description: "Shows the artwork of the track playing in Spotify and toggles Play/Pause",
+                groupName: "Now Playing Artwork")
         {
         }
 

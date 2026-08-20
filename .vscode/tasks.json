@@ -18,21 +18,21 @@
     {
       "label": "Package Plugin",
       "type": "shell",
-      "command": "logiplugintool pack ./bin/Release ./bin/SpotifyArtwork_1_0.lplug4",
+      "command": "logiplugintool pack ./bin/Release ./bin/NowPlayingArtwork_1_0.lplug4",
       "group": "none",
       "problemMatcher": []
     },
     {
       "label": "Install Plugin",
       "type": "shell",
-      "command": "logiplugintool install ./bin/SpotifyArtwork_1_0.lplug4",
+      "command": "logiplugintool install ./bin/NowPlayingArtwork_1_0.lplug4",
       "group": "none",
       "problemMatcher": []
     },
     {
       "label": "Uninstall Plugin",
       "type": "shell",
-      "command": "logiplugintool uninstall SpotifyArtwork",
+      "command": "logiplugintool uninstall NowPlayingArtwork",
       "group": "none",
       "problemMatcher": []
     }

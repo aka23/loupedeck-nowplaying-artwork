@@ -1,10 +1,10 @@
-namespace Loupedeck.SpotifyArtworkPlugin
+namespace Loupedeck.NowPlayingArtworkPlugin
 {
     using System;
 
     // This class contains the plugin-level logic of the Loupedeck plugin.
 
-    public class SpotifyArtworkPlugin : Plugin
+    public class NowPlayingArtworkPlugin : Plugin
     {
         // Gets a value indicating whether this is an API-only plugin.
         public override Boolean UsesApplicationApiOnly => true;
@@ -13,7 +13,7 @@ namespace Loupedeck.SpotifyArtworkPlugin
         public override Boolean HasNoApplication => true;
 
         // Initializes a new instance of the plugin class.
-        public SpotifyArtworkPlugin()
+        public NowPlayingArtworkPlugin()
         {
             // Initialize the plugin log.
             PluginLog.Init(this.Log);

@@ -1,4 +1,4 @@
-namespace Loupedeck.SpotifyArtworkPlugin
+namespace Loupedeck.NowPlayingArtworkPlugin
 {
     using System;
     using System.IO;
@@ -19,8 +19,8 @@ namespace Loupedeck.SpotifyArtworkPlugin
         }
 
         // Retrieves the names of all the resource files in the specified folder.
-        // The parameter `folderName` must be specified as a full path, for example, `Loupedeck.SpotifyArtworkPlugin.Resources`.
-        // Returns the full names of the resource files, for example, `Loupedeck.SpotifyArtworkPlugin.Resources.Resource.txt`.
+        // The parameter `folderName` must be specified as a full path, for example, `Loupedeck.NowPlayingArtworkPlugin.Resources`.
+        // Returns the full names of the resource files, for example, `Loupedeck.NowPlayingArtworkPlugin.Resources.Resource.txt`.
         public static String[] GetFilesInFolder(String folderName) => PluginResources._assembly.GetFilesInFolder(folderName);
 
         // Finds the first resource file with the specified file name.

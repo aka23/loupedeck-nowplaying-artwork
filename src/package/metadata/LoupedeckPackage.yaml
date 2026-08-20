@@ -6,16 +6,16 @@
 type: plugin4
 
 # Name that identifies the plugin.
-name: SpotifyArtwork
+name: NowPlayingArtwork
 
 # Plugin name that is shown to the user.
-displayName: Spotify Artwork
+displayName: Now Playing Artwork
 
 # Short description of the plugin.
-description: Shows the current Spotify album artwork and toggles Play/Pause on macOS.
+description: Shows the album artwork of the track currently playing in Spotify on a single key, and toggles Play/Pause when you press it. Reads Spotify.app directly through AppleScript, so there is no account to connect and nothing to authorise. macOS only.
 
 # Name of the plugin library file.
-pluginFileName: SpotifyArtworkPlugin.dll
+pluginFileName: NowPlayingArtworkPlugin.dll
 
 # Plugin version.
 version: 1.0
@@ -74,7 +74,7 @@ licenseUrl: https://opensource.org/licenses/MIT
 # URL of the support page where the users can send improvement suggestions and report bugs.
 # The URL is shown in Loupedeck Marketplace. The page can be for example a GitHub issues page.
 # NOTE: This setting is recommended when publishing the plugin in Loupedeck Marketplace.
-supportPageUrl: https://github.com/aka23/loupedeck-spotify-artwork/issues
+supportPageUrl: https://github.com/aka23/loupedeck-nowplaying-artwork/issues
 
 # URL of the plugin homepage. The URL is shown in Loupedeck Marketplace.
-homePageUrl: https://github.com/aka23/loupedeck-spotify-artwork
+homePageUrl: https://github.com/aka23/loupedeck-nowplaying-artwork

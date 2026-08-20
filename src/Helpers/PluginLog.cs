@@ -1,4 +1,4 @@
-namespace Loupedeck.SpotifyArtworkPlugin
+namespace Loupedeck.NowPlayingArtworkPlugin
 {
     using System;
 

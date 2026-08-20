@@ -1,7 +1,10 @@
-# Spotify Artwork for Loupedeck
+# Now Playing Artwork for Loupedeck
 
 Shows the album artwork of the track playing in Spotify on a single Loupedeck key,
 and toggles Play/Pause when you press it.
+
+One key, one job. It reads Spotify.app directly, so there is no account to connect,
+nothing to authorise, and nothing to keep signed in.
 
 No Spotify Web API, no OAuth, no client ID, no external service. The plugin talks to
 Spotify.app directly through AppleScript, so it works offline apart from fetching the
@@ -11,7 +14,7 @@ macOS only.
 
 ## What it does
 
-- One action, in the **Spotify Artwork** group. Universal plugin, so it can go on any
+- One action, in the **Now Playing Artwork** group. Universal plugin, so it can go on any
   profile. The action itself is deliberately unnamed — see the notes below.
 - The artwork fills the key. No title, no track name, no icon drawn over it.
 - Press the key to toggle Play/Pause.
@@ -68,9 +71,9 @@ refuses to load, so the project deliberately prefers the service's own copy.
 ## Packaging and installing
 
 ```sh
-logiplugintool pack ./bin/Release ./bin/SpotifyArtwork_1_0.lplug4
-logiplugintool verify ./bin/SpotifyArtwork_1_0.lplug4
-logiplugintool install ./bin/SpotifyArtwork_1_0.lplug4
+logiplugintool pack ./bin/Release ./bin/NowPlayingArtwork_1_0.lplug4
+logiplugintool verify ./bin/NowPlayingArtwork_1_0.lplug4
+logiplugintool install ./bin/NowPlayingArtwork_1_0.lplug4
 ```
 
 If `install` fails with `Plugin installation cannot start`, the tool and the service are
@@ -79,11 +82,11 @@ same failure affects `uninstall`). Two things that do work:
 
 - The Loupedeck app: **Marketplace → manage add-ons → + Install plugin from file**
 - By hand: unpack the `.lplug4` into
-  `~/Library/Application Support/Logi/LogiPluginService/Plugins/SpotifyArtwork/`
+  `~/Library/Application Support/Logi/LogiPluginService/Plugins/NowPlayingArtwork/`
   and restart the service with
   `launchctl kickstart -k gui/$UID/com.logi.pluginservice.launch`
 
-Then drag the action out of the **Spotify Artwork** group onto a key.
+Then drag the action out of the **Now Playing Artwork** group onto a key.
 
 macOS will ask to let Logi Plugin Service control Spotify the first time the plugin runs
 a script. Allow it, or tick it later under **System Settings → Privacy & Security →
@@ -95,7 +98,7 @@ Three things cost real time to work out and are not obvious from the SDK templat
 
 - **A plugin assembly with no `ClientApplication` subclass will not load**, even for a
   universal plugin that has no application. The service reports only
-  `Cannot load plugin from <dll>`. `SpotifyArtworkApplication.cs` exists solely to
+  `Cannot load plugin from <dll>`. `NowPlayingArtworkApplication.cs` exists solely to
   satisfy this.
 - **The Loupedeck app draws its own text element over the key, and its content is the
   action's display name** — returning an empty string from `GetCommandDisplayName` does

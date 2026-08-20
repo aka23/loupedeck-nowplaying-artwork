@@ -4,7 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <RootNamespace>Loupedeck.SpotifyArtworkPlugin</RootNamespace>
+    <RootNamespace>Loupedeck.NowPlayingArtworkPlugin</RootNamespace>
 
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

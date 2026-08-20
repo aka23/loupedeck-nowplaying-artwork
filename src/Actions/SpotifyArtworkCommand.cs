@@ -57,6 +57,7 @@ namespace Loupedeck.SpotifyArtworkPlugin
         private Int32 _failedAttempts;
         private Byte[] _currentArtwork;
         private Int32 _playPauseRunning;
+        private PluginImageSize? _lastImageSize;
 
         public SpotifyArtworkCommand()
             : base(
@@ -120,50 +121,64 @@ namespace Loupedeck.SpotifyArtworkPlugin
 
         protected override BitmapImage GetCommandImage(String actionParameter, PluginImageSize imageSize)
         {
+            // The service picks the image size from how the key is configured, so a size the
+            // renderer cannot handle shows up as "the artwork stopped updating". Log each new size
+            // once, and never let this method throw: an exception here loses the frame entirely.
+            if (this._lastImageSize != imageSize)
+            {
+                this._lastImageSize = imageSize;
+                PluginLog.Info($"Spotify artwork is being drawn at image size {imageSize}.");
+            }
+
             Byte[] artwork;
             lock (this._stateLock)
             {
                 artwork = this._currentArtwork;
             }
 
-            using var builder = new BitmapBuilder(imageSize);
-            builder.Clear(0xFF000000u);
-
-            if (artwork is null)
-            {
-                return builder.ToImage();
-            }
-
             try
             {
-                using var source = BitmapImage.FromArray(artwork);
-                if (source.Width <= 0 || source.Height <= 0 || builder.Width <= 0 || builder.Height <= 0)
-                {
-                    return builder.ToImage();
-                }
-
-                var sourceAspect = (Double)source.Width / source.Height;
-                var targetAspect = (Double)builder.Width / builder.Height;
-
-                if (sourceAspect > targetAspect)
-                {
-                    var cropWidth = Math.Max(1, (Int32)Math.Round(source.Height * targetAspect));
-                    source.Crop((source.Width - cropWidth) / 2, 0, cropWidth, source.Height);
-                }
-                else if (sourceAspect < targetAspect)
-                {
-                    var cropHeight = Math.Max(1, (Int32)Math.Round(source.Width / targetAspect));
-                    source.Crop(0, (source.Height - cropHeight) / 2, source.Width, cropHeight);
-                }
-
-                builder.DrawImage(source, 0, 0, builder.Width, builder.Height, BitmapRotation.None);
-                return builder.ToImage();
+                return RenderArtwork(artwork, imageSize);
             }
             catch (Exception ex)
             {
-                PluginLog.Warning(ex, "Could not render the cached Spotify artwork.");
+                PluginLog.Warning(ex, $"Could not draw the Spotify artwork at image size {imageSize}.");
+                return null;
+            }
+        }
+
+        private static BitmapImage RenderArtwork(Byte[] artwork, PluginImageSize imageSize)
+        {
+            using var builder = new BitmapBuilder(imageSize);
+            builder.Clear(0xFF000000u);
+
+            if (artwork is null || builder.Width <= 0 || builder.Height <= 0)
+            {
                 return builder.ToImage();
             }
+
+            using var source = BitmapImage.FromArray(artwork);
+            if (source.Width <= 0 || source.Height <= 0)
+            {
+                return builder.ToImage();
+            }
+
+            var sourceAspect = (Double)source.Width / source.Height;
+            var targetAspect = (Double)builder.Width / builder.Height;
+
+            if (sourceAspect > targetAspect)
+            {
+                var cropWidth = Math.Max(1, (Int32)Math.Round(source.Height * targetAspect));
+                source.Crop((source.Width - cropWidth) / 2, 0, cropWidth, source.Height);
+            }
+            else if (sourceAspect < targetAspect)
+            {
+                var cropHeight = Math.Max(1, (Int32)Math.Round(source.Width / targetAspect));
+                source.Crop(0, (source.Height - cropHeight) / 2, source.Width, cropHeight);
+            }
+
+            builder.DrawImage(source, 0, 0, builder.Width, builder.Height, BitmapRotation.None);
+            return builder.ToImage();
         }
 
         private async Task PollLoopAsync(CancellationToken cancellationToken)

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <RootNamespace>Loupedeck.SpotifyArtworkPlugin</RootNamespace>
@@ -19,14 +19,22 @@
   <!--
     Location of PluginApi.dll. Set the PluginApiDir property (for example,
     `dotnet build -p:PluginApiDir=/some/path/`) to override the discovery below.
+
+    Always prefer the PluginApi that the installed Logi Plugin Service actually loads plugins
+    against: the service refuses a plugin built against a different PluginApi version.
   -->
   <PropertyGroup Condition="'$(PluginApiDir)' == '' and $(OS) == 'Windows_NT'">
     <PluginApiDir>C:\Program Files\Logi\LogiPluginService\</PluginApiDir>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(PluginApiDir)' == '' and $(OS) != 'Windows_NT' and Exists('/Applications/Utilities/LogiPluginService.app/Contents/MonoBundle/PluginApi.dll')">
+    <PluginApiDir>/Applications/Utilities/LogiPluginService.app/Contents/MonoBundle/</PluginApiDir>
+  </PropertyGroup>
+
   <!--
-    On macOS the API ships with the `logiplugintool` dotnet tool, whose store path embeds the
-    tool version twice. Discover the newest installed version instead of hard-coding it.
+    Fallback for machines without the service installed: the API also ships with the
+    `logiplugintool` dotnet tool, whose store path embeds the tool version twice.
+    Discover the newest installed version instead of hard-coding it.
   -->
   <PropertyGroup Condition="'$(PluginApiDir)' == '' and $(OS) != 'Windows_NT'">
     <LogiPluginToolStore Condition="'$(LogiPluginToolStore)' == ''">$(HOME)/.dotnet/tools/.store/logiplugintool/</LogiPluginToolStore>

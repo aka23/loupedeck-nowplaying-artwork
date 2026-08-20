@@ -130,6 +130,8 @@ namespace Loupedeck.SpotifyArtworkPlugin
                 PluginLog.Info($"Spotify artwork is being drawn at image size {imageSize}.");
             }
 
+            PluginLog.Verbose($"Artwork frame requested: size={imageSize} parameter={actionParameter ?? "(null)"}.");
+
             Byte[] artwork;
             lock (this._stateLock)
             {
@@ -435,7 +437,11 @@ namespace Loupedeck.SpotifyArtworkPlugin
         {
             try
             {
-                this.ActionImageChanged();
+                // This command registers no parameters (TryGetParameters returns an empty array),
+                // and the service asks for frames with a null actionParameter. Naming that
+                // parameter explicitly is measurably answered: the service calls GetCommandImage
+                // about a millisecond after this returns.
+                this.ActionImageChanged(null);
             }
             catch (Exception ex)
             {

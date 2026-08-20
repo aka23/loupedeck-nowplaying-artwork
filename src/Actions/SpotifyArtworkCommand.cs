@@ -59,9 +59,14 @@ namespace Loupedeck.SpotifyArtworkPlugin
         private Int32 _playPauseRunning;
         private PluginImageSize? _lastImageSize;
 
+        // The Loupedeck app draws a text element over the key whose content is this display name,
+        // and editing it away in the key editor switches the key to a static composed image, which
+        // stops the artwork from updating. An empty display name leaves the app nothing to draw, so
+        // the key keeps the default (live) rendering and shows the artwork alone. The action id the
+        // profile stores is built from the type name, so this does not disturb existing keys.
         public SpotifyArtworkCommand()
             : base(
-                displayName: "Spotify Artwork",
+                displayName: String.Empty,
                 description: "Shows the current Spotify album artwork and toggles Play/Pause",
                 groupName: "Spotify")
         {
@@ -437,11 +442,14 @@ namespace Loupedeck.SpotifyArtworkPlugin
         {
             try
             {
-                // This command registers no parameters (TryGetParameters returns an empty array),
-                // and the service asks for frames with a null actionParameter. Naming that
-                // parameter explicitly is measurably answered: the service calls GetCommandImage
-                // about a millisecond after this returns.
+                // The service answers ActionImageChanged(null) by calling GetCommandImage about a
+                // millisecond later, but that repaint does not reach the device. The overloads take
+                // different routes through the service, so raise all three: the parameterless one,
+                // the null parameter the service asks frames for, and the empty-string parameter
+                // that matches how this action is named in the profile.
+                this.ActionImageChanged();
                 this.ActionImageChanged(null);
+                this.ActionImageChanged(String.Empty);
             }
             catch (Exception ex)
             {

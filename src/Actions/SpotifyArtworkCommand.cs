@@ -241,6 +241,7 @@ namespace Loupedeck.SpotifyArtworkPlugin
 
             if (restoredFromCache)
             {
+                PluginLog.Info($"Spotify artwork restored from cache for track '{trackId}'.");
                 this.NotifyImageChanged();
                 return;
             }
@@ -317,7 +318,7 @@ namespace Loupedeck.SpotifyArtworkPlugin
                 this._failedAttempts = 0;
             }
 
-            PluginLog.Info("Spotify artwork updated for the current track.");
+            PluginLog.Info($"Spotify artwork updated for track '{trackId}' ({downloadedArtwork.Length} bytes).");
             this.NotifyImageChanged();
         }
 

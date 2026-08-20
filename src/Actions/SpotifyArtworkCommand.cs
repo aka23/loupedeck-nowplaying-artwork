@@ -117,6 +117,9 @@ namespace Loupedeck.SpotifyArtworkPlugin
             _ = this.TogglePlayPauseAsync();
         }
 
+        // The service calls the non-virtual TryGetCommandDisplayName, which reports "has a name"
+        // for an empty string and falls back to the action's own DisplayName for null. An empty
+        // string is therefore the only way a plugin can ask for a key with no text drawn on it.
         protected override String GetCommandDisplayName(String actionParameter, PluginImageSize imageSize) => String.Empty;
 
         protected override BitmapImage GetCommandImage(String actionParameter, PluginImageSize imageSize)
@@ -129,6 +132,8 @@ namespace Loupedeck.SpotifyArtworkPlugin
                 this._lastImageSize = imageSize;
                 PluginLog.Info($"Spotify artwork is being drawn at image size {imageSize}.");
             }
+
+            PluginLog.Verbose($"Spotify artwork frame requested: size={imageSize} parameter={actionParameter ?? "(null)"}.");
 
             Byte[] artwork;
             lock (this._stateLock)
@@ -149,7 +154,16 @@ namespace Loupedeck.SpotifyArtworkPlugin
 
         private static BitmapImage RenderArtwork(Byte[] artwork, PluginImageSize imageSize)
         {
-            using var builder = new BitmapBuilder(imageSize);
+            // `new BitmapBuilder(imageSize)` sizes the bitmap to GetWidth/GetHeight, which insets the
+            // artwork inside the key: 80x80 drawn into a 90x90 key leaves a 5px border on every side.
+            // Build at the button size instead so the artwork reaches the edges of the key.
+            var buttonWidth = imageSize.GetButtonWidth();
+            var buttonHeight = imageSize.GetButtonHeight();
+
+            using var builder = buttonWidth > 0 && buttonHeight > 0
+                ? new BitmapBuilder(buttonWidth, buttonHeight)
+                : new BitmapBuilder(imageSize);
+
             builder.Clear(0xFF000000u);
 
             if (artwork is null || builder.Width <= 0 || builder.Height <= 0)

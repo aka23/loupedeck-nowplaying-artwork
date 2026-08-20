@@ -68,9 +68,9 @@ refuses to load, so the project deliberately prefers the service's own copy.
 ## Packaging and installing
 
 ```sh
-logiplugintool pack ./bin/Release ./bin/SpotifyArtwork.lplug4
-logiplugintool verify ./bin/SpotifyArtwork.lplug4
-logiplugintool install ./bin/SpotifyArtwork.lplug4
+logiplugintool pack ./bin/Release ./bin/SpotifyArtwork_1_0.lplug4
+logiplugintool verify ./bin/SpotifyArtwork_1_0.lplug4
+logiplugintool install ./bin/SpotifyArtwork_1_0.lplug4
 ```
 
 If `install` fails with `Plugin installation cannot start`, the tool and the service are
@@ -83,7 +83,7 @@ same failure affects `uninstall`). Two things that do work:
   and restart the service with
   `launchctl kickstart -k gui/$UID/com.logi.pluginservice.launch`
 
-Then drag **Spotify Artwork** from the Spotify group onto a key.
+Then drag the action out of the **Spotify Artwork** group onto a key.
 
 macOS will ask to let Logi Plugin Service control Spotify the first time the plugin runs
 a script. Allow it, or tick it later under **System Settings → Privacy & Security →

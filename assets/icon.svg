@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="key" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5B3FD9"/>
+      <stop offset="1" stop-color="#C43E8F"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.28"/>
+      <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- the key -->
+  <rect x="16" y="16" width="224" height="224" rx="52" fill="url(#key)"/>
+  <rect x="16" y="16" width="224" height="224" rx="52" fill="url(#sheen)"/>
+
+  <!-- the record: a light disc filling the key, the way the artwork does -->
+  <circle cx="128" cy="128" r="74" fill="#FFF6FB"/>
+  <circle cx="128" cy="128" r="74" fill="none" stroke="#000000" stroke-opacity="0.10" stroke-width="2"/>
+
+  <!-- grooves -->
+  <circle cx="128" cy="128" r="60" fill="none" stroke="#C43E8F" stroke-opacity="0.22" stroke-width="4"/>
+  <circle cx="128" cy="128" r="48" fill="none" stroke="#C43E8F" stroke-opacity="0.16" stroke-width="4"/>
+
+  <!-- label and spindle hole -->
+  <circle cx="128" cy="128" r="28" fill="#5B3FD9"/>
+  <circle cx="128" cy="128" r="7" fill="#FFF6FB"/>
+</svg>

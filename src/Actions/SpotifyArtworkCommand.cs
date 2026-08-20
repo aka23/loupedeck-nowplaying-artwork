@@ -68,7 +68,7 @@ namespace Loupedeck.SpotifyArtworkPlugin
             : base(
                 displayName: String.Empty,
                 description: "Shows the current Spotify album artwork and toggles Play/Pause",
-                groupName: "Spotify")
+                groupName: "Spotify Artwork")
         {
         }
 

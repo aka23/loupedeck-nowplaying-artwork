@@ -11,8 +11,8 @@ macOS only.
 
 ## What it does
 
-- One action, **Spotify Artwork**, in the **Spotify** group. Universal plugin, so it can
-  go on any profile.
+- One action, in the **Spotify Artwork** group. Universal plugin, so it can go on any
+  profile. The action itself is deliberately unnamed — see the notes below.
 - The artwork fills the key. No title, no track name, no icon drawn over it.
 - Press the key to toggle Play/Pause.
 
@@ -102,8 +102,8 @@ Three things cost real time to work out and are not obvious from the SDK templat
   not remove it. Removing it in the app's key editor is worse: editing a key switches it
   to a statically composed image and the artwork stops updating. Giving the action an
   empty display name leaves the app nothing to draw, so the key keeps its default live
-  rendering. That is why the constructor passes `String.Empty` and the action appears
-  unnamed in the action list.
+  rendering. That is why the constructor passes `String.Empty`; the group name carries
+  the identity instead, so the action is still findable in the action list.
 - **An action image is `BitmapBuilder(imageSize)` sized** — 80×80 for `Width90`.
   `GetButtonWidth`/`GetButtonHeight` report the physical key (90×90) and using those
   produces an image the service will not render.

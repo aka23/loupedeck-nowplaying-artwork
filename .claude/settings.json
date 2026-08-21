@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "awk '/^## OPEN/{f=1;next} /^## CLOSED/{f=0} f && /^[A-Za-z]+-[0-9]+:/' internal/commitments.md 2>/dev/null | sed 's/^/[commitments OPEN] /'"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -14,8 +14,8 @@ macOS only.
 
 ## What it does
 
-- One action, in the **Now Playing Artwork** group. Universal plugin, so it can go on any
-  profile. The action itself is deliberately unnamed — see the notes below.
+- One action, listed directly under **Now Playing Artwork**. Universal plugin, so it can go
+  on any profile. The action itself is deliberately unnamed — see the notes below.
 - The artwork fills the key. No title, no track name, no icon drawn over it.
 - Press the key to toggle Play/Pause.
 
@@ -71,9 +71,9 @@ refuses to load, so the project deliberately prefers the service's own copy.
 ## Packaging and installing
 
 ```sh
-logiplugintool pack ./bin/Release ./bin/NowPlayingArtwork_1_0.lplug4
-logiplugintool verify ./bin/NowPlayingArtwork_1_0.lplug4
-logiplugintool install ./bin/NowPlayingArtwork_1_0.lplug4
+logiplugintool pack ./bin/Release ./bin/NowPlayingArtwork_1_1.lplug4
+logiplugintool verify ./bin/NowPlayingArtwork_1_1.lplug4
+logiplugintool install ./bin/NowPlayingArtwork_1_1.lplug4
 ```
 
 If `install` fails with `Plugin installation cannot start`, the tool and the service are
@@ -86,7 +86,8 @@ same failure affects `uninstall`). Two things that do work:
   and restart the service with
   `launchctl kickstart -k gui/$UID/com.logi.pluginservice.launch`
 
-Then drag the action out of the **Now Playing Artwork** group onto a key.
+Then drag the action listed under **Now Playing Artwork** onto a key. It is the only one,
+and its row carries no label — the app shows its description in the pane below instead.
 
 macOS will ask to let Logi Plugin Service control Spotify the first time the plugin runs
 a script. Allow it, or tick it later under **System Settings → Privacy & Security →
@@ -105,8 +106,11 @@ Three things cost real time to work out and are not obvious from the SDK templat
   not remove it. Removing it in the app's key editor is worse: editing a key switches it
   to a statically composed image and the artwork stops updating. Giving the action an
   empty display name leaves the app nothing to draw, so the key keeps its default live
-  rendering. That is why the constructor passes `String.Empty`; the group name carries
-  the identity instead, so the action is still findable in the action list.
+  rendering. That is why the constructor passes `String.Empty`. The same property is also
+  the action's label in the action list: `Plugin.GetActionDisplayName` returns `DisplayName`
+  directly for an action that registers no parameters, without consulting the
+  `GetCommandDisplayName` hook at all. So the row is blank, and the app shows the action's
+  description underneath it instead.
 - **An action image is `BitmapBuilder(imageSize)` sized** — 80×80 for `Width90`.
   `GetButtonWidth`/`GetButtonHeight` report the physical key (90×90) and using those
   produces an image the service will not render.

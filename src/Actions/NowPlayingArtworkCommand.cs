@@ -64,11 +64,17 @@ namespace Loupedeck.NowPlayingArtworkPlugin
         // stops the artwork from updating. An empty display name leaves the app nothing to draw, so
         // the key keeps the default (live) rendering and shows the artwork alone. The action id the
         // profile stores is built from the type name, so this does not disturb existing keys.
+        //
+        // groupName is null on purpose as well. There is one action, so a group whose name repeats
+        // the plugin's own only adds a level of nesting that carries nothing: the app already heads
+        // the action list with the plugin name. With no group the action sits directly under that
+        // heading, and the app shows this description in the pane below it — which is where the
+        // explanation lives, now that the label is necessarily blank.
         public NowPlayingArtworkCommand()
             : base(
                 displayName: String.Empty,
                 description: "Shows the artwork of the track playing in Spotify and toggles Play/Pause",
-                groupName: "Now Playing Artwork")
+                groupName: null)
         {
         }
 
@@ -122,6 +128,11 @@ namespace Loupedeck.NowPlayingArtworkPlugin
             _ = this.TogglePlayPauseAsync();
         }
 
+        // This is not what keeps the key clean; the empty displayName is. Plugin.GetActionDisplayName
+        // returns the DisplayName property directly for an action that registers no parameters, and
+        // this command registers none, so this hook is never consulted for it. Kept because it is
+        // consistent with an empty display name, and String.Empty rather than null because the
+        // reset-name path in PluginDynamicAction.Load does fall back to DisplayName on null.
         protected override String GetCommandDisplayName(String actionParameter, PluginImageSize imageSize) => String.Empty;
 
         protected override BitmapImage GetCommandImage(String actionParameter, PluginImageSize imageSize)

@@ -59,7 +59,7 @@ process is killed on timeout. There is no Spotify Web API, no OAuth, no client i
 ## Build and package
 
 `dotnet build -c Release` → `bin/Release/{bin,metadata}` →
-`logiplugintool pack ./bin/Release ./bin/NowPlayingArtwork_1_0.lplug4`.
+`logiplugintool pack ./bin/Release ./bin/NowPlayingArtwork_1_1.lplug4`.
 
 The csproj resolves `PluginApi.dll` from the installed service first and the
 `logiplugintool` store second, and a `CheckPluginApi` target fails the build with a

@@ -18,10 +18,10 @@ log says only `Cannot load plugin from <dll>`. That is also why `TargetFramework
 The SDK's own generated skeleton does not build unmodified on this machine for the same
 reason, so this is a property of the environment, not of this project.
 
-## The action's display name is deliberately empty
+## The action's display name is deliberately empty, and it has no group
 
-`displayName: String.Empty` in the `NowPlayingArtworkCommand` constructor, with the
-identity carried by `groupName: "Now Playing Artwork"`.
+`displayName: String.Empty` and `groupName: null` in the `NowPlayingArtworkCommand`
+constructor.
 
 The Loupedeck app composes a key from a background, an icon and a **text element whose
 content is the action's display name**. Returning an empty string from
@@ -30,8 +30,38 @@ text in the app's key editor is worse: editing a key switches it to a statically
 image and the artwork stops updating altogether.
 
 An empty display name leaves the app nothing to draw, so the key keeps its default live
-rendering and shows the cover alone. Moving the name onto the group keeps the action
-findable in the action list.
+rendering and shows the cover alone.
+
+Re-measured on 2026-09-25 against app 6.4.1.364 and service 6.4.1.3246, after a Marketplace
+reviewer asked for the action to be given a name: a build carrying
+`displayName: "Display Artwork"` draws exactly that string across the artwork.
+
+The mechanism, which took two wrong guesses to pin down. `Plugin.GetActionDisplayName` is
+what resolves an action's label, and its first branch is
+`if (!action.HasParameter || String.IsNullOrEmpty(actionParameter)) return
+action.DisplayName;`. This command registers no parameters — there is no `AddParameter` call
+anywhere in it — so that branch is always the one taken, and
+`GetCommandDisplayName` / `TryGetCommandDisplayName` is never consulted for it at all. The
+hook is reached only for actions that carry a parameter, where the label can vary per state.
+
+Two consequences. The override of `GetCommandDisplayName` at the bottom of the command is
+**not** what keeps the key clean — `displayName: String.Empty` is. And this is the SDK
+behaving exactly as written, **not** an app defect: that claim was drafted here and in a
+reply to Logitech and was wrong both times. `PluginDynamicAction.Load` does contain a
+prefer-the-hook-then-fall-back-on-null pattern, which is what misled it, but that code
+computes `ResetDisplayName` and never the rendered label. Read the branch you are actually
+on before attributing a limitation to somebody else's code.
+
+The group was dropped for that reviewer's second point, and it holds up. With one action, a
+group whose name repeats the plugin's own is nesting that carries nothing — the app already
+heads the list with the plugin name. Measured: `groupName: null` leaves the action listed
+directly under that heading, still selectable and draggable, and the app shows the action's
+**description** in the pane beneath it. A blank label is therefore not the same thing as an
+unexplained action, which is the substance of the reply sent to the reviewer.
+
+Keeping a group but giving it a descriptive name was considered and rejected: it preserves
+the nesting the reviewer objected to and still leaves the row itself blank, so it buys
+nothing.
 
 ## A ClientApplication subclass exists purely to satisfy the loader
 

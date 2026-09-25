@@ -14,8 +14,9 @@ On session start, read `internal/wiki/` first, then `internal/commitments.md`.
   device is indistinguishable from "the plugin stopped working".
 - **Do not delete `src/NowPlayingArtworkApplication.cs`.** The service will not load the
   assembly without a `ClientApplication` subclass. See `internal/wiki/gotchas.md`.
-- **Do not give the action a display name.** The app draws it over the artwork. See
-  `internal/wiki/decisions.md`.
+- **Do not give the action a display name, and do not put it back in a group.** The app
+  draws the display name over the artwork, and with one action the group was nesting that
+  carried nothing. Both measured — see `internal/wiki/decisions.md`.
 - **Scope is one action: artwork + Play/Pause.** No next/previous, volume, seek, track
   text, progress, or settings UI. Say no and explain, rather than adding "just one more".
 - **Renaming the plugin or the command type drops the key assignment.** Warn before doing

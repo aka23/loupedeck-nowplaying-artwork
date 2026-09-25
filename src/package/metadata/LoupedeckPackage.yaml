@@ -18,7 +18,7 @@ description: Shows the album artwork of the track currently playing in Spotify o
 pluginFileName: NowPlayingArtworkPlugin.dll
 
 # Plugin version.
-version: 1.0
+version: 1.1
 
 # Author of the plugin. The author can be a company or an individual developer.
 author: aka23

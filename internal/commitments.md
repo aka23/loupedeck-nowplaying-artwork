@@ -52,7 +52,7 @@ NPA-03: Working directory still named after the old plugin — 🧹 cosmetic
 - Docs-swept:   n/a.
 - Owner:        aka23, whenever convenient.
 
-NPA-04: Reviewer asked for an action display name and no group — ✍️ decided, reply pending
+NPA-04: Reviewer asked for an action display name and no group — ✅ answered
 - Source:       Marketplace review feedback on NPA-01, 2026-09-22, chased 2026-09-25. Two
                 requests: give the action a name ("Display Artwork"), and lift it out of
                 the "Now Playing Artwork" group since it is the only action.
@@ -113,7 +113,13 @@ NPA-04: Reviewer asked for an action display name and no group — ✍️ decide
                 rather than prose. They are committed rather than attached to the mail so
                 the reviewer gets full resolution and a stable URL. The probe build was
                 reverted with `git checkout` and v1.1 reinstalled from the package.
-- Remaining:    Reply outstanding as of 2026-09-26; deliver v1.1 to the review thread.
+- Replied:      2026-09-26, in the review thread. ② conceded up front, ① declined with the
+                two screenshot URLs doing the arguing, the SDK mechanism stated the way
+                the decompiler supports it, an explicit offer to reconsider if a visible
+                label is a publication requirement, and a question about how to deliver
+                v1.1 (contribute form or the `.lplug4` directly). **Open until he
+                answers** — the delivery route and whether ① is a hard requirement are both
+                still his to say.
 - Owner:        aka23.
 
 ## CLOSED

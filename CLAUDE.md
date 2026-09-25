@@ -41,7 +41,7 @@ On session start, read `internal/wiki/` first, then `internal/commitments.md`.
 | Path | What |
 |---|---|
 | `src/` | Plugin source; `src/package/metadata/` is the package manifest and icons. |
-| `assets/icon.svg` | Icon master; the four PNGs are rasterised from it. |
+| `assets/` | `icon.svg` is the icon master (the four PNGs are rasterised from it); the `screenshot-*.png` files are the action-list evidence behind the no-display-name decision. |
 | `internal/` | Continuity layer: `commitments.md` (state), `wiki/` (knowledge), `CONTINUITY.md` (protocol). Tracked, and public — this repo is public, so keep it technical. |
 | `bin/` | Build output and the packed `.lplug4`. Untracked. |
 

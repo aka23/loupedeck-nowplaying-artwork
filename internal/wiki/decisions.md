@@ -34,7 +34,11 @@ rendering and shows the cover alone.
 
 Re-measured on 2026-09-25 against app 6.4.1.364 and service 6.4.1.3246, after a Marketplace
 reviewer asked for the action to be given a name: a build carrying
-`displayName: "Display Artwork"` draws exactly that string across the artwork.
+`displayName: "Display Artwork"` draws exactly that string across the artwork. The two
+screenshots in `assets/` are that measurement —
+`screenshot-action-list.png` is what ships (blank row, clean artwork, description shown
+beneath), and `screenshot-display-name-over-artwork.png` is the same panel with a display
+name, where the row gains its label and the key preview loses the cover to it.
 
 The mechanism, which took two wrong guesses to pin down. `Plugin.GetActionDisplayName` is
 what resolves an action's label, and its first branch is

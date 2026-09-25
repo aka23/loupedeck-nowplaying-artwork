@@ -16,6 +16,9 @@ macOS only.
 
 - One action, listed directly under **Now Playing Artwork**. Universal plugin, so it can go
   on any profile. The action itself is deliberately unnamed — see the notes below.
+
+  ![The action in the Loupedeck app's action list](assets/screenshot-action-list.png)
+
 - The artwork fills the key. No title, no track name, no icon drawn over it.
 - Press the key to toggle Play/Pause.
 

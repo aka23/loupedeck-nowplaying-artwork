@@ -103,14 +103,16 @@ NPA-04: Reviewer asked for an action display name and no group — ✍️ decide
                 `CLAUDE.md` (the hard rule now covers the group),
                 `src/Actions/NowPlayingArtworkCommand.cs` (constructor comment),
                 `LoupedeckPackage.yaml` (version 1.0 → 1.1).
-- Evidence:     Two screenshots of the app's action list, captured 2026-09-26, which carry
-                the argument without prose. Shipping v1.1: blank row, clean artwork in the
-                key preview, description shown in the pane below. A build with
-                `displayName: "Display Artwork"`: the row gains its label **and** the same
-                string lands across the artwork in the key preview. The second one shows
-                the reviewer's request being granted and breaking the product in the same
-                frame. The probe was reverted with `git checkout` and v1.1 reinstalled from
-                the package; the tree is clean.
+- Evidence:     Two screenshots of the app's action list, captured 2026-09-26 and committed
+                as `assets/screenshot-action-list.png` (what ships: blank row, clean
+                artwork, description shown beneath) and
+                `assets/screenshot-display-name-over-artwork.png` (the same panel with a
+                display name: the row gains its label **and** the key preview loses the
+                cover to it). The second shows the reviewer's request being granted and
+                breaking the product in the same frame, which is why it carries the reply
+                rather than prose. They are committed rather than attached to the mail so
+                the reviewer gets full resolution and a stable URL. The probe build was
+                reverted with `git checkout` and v1.1 reinstalled from the package.
 - Remaining:    Reply outstanding as of 2026-09-26; deliver v1.1 to the review thread.
 - Owner:        aka23.
 
